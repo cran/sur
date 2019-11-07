@@ -1,0 +1,14 @@
+#' Stepping and Heart Rate
+#'
+#' Students at Ohio State University conducted an experiment in the fall of 1993 to explore the nature of the relationship between a person's heart rate and the frequency at which that person stepped up and down on steps of various heights. The response variable, heart rate, was measured in beats per minute. For each person, the resting heart rate was measured before a trial (HRInit) and after stepping (HRFinal).  There were two different step heights (Height): 5.75 inches (coded as 1 = Low), and 11.5 inches (coded as 2 = High). There were three rates of stepping (Freq): 14 steps/min. (coded as 1 = Slow), 21 steps/min. (coded as 2 = Medium), and 28 steps/min. (coded as 3 = Fast). This resulted in six possible height/frequency combinations. Each subject performed the activity for three minutes. Subjects were kept on pace by the beat of an electric metronome. One experimenter counted the subject's heart rate, in beats per minute, for 20 seconds before and after each trial. The subject always rested between trials until her or his heart rate returned to close to the beginning rate. Another experimenter kept track of the time spent stepping. Each subject was always measured and timed by the same pair of experimenters to reduce variability in the experiment.  The dataset and description are adapted from the Data and Story Library (DASL) website.
+#'
+#' @format A data frame with 30 rows and 6 variables:
+#' \describe{
+#'   \item{Order}{overall performance order of the trial}
+#'   \item{Block}{subject and experimenters' block number}
+#'   \item{Height}{step height}
+#'   \item{Freq}{rate of stepping}
+#'   \item{HRInit}{resting heart rate of the subject before a trial, in beats per minute}
+#'   \item{HRFinal}{final heart rate of the subject after a trial, in beats per minute}
+#' }
+"Stepping"

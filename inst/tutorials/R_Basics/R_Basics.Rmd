@@ -1,0 +1,1158 @@
+---
+title: "R Data Frame Basics Tutorial - Supplement to Statistics Using R: An Integrative Apprach"
+output: 
+  learnr::tutorial:
+    theme: cerulean
+runtime: shiny_prerendered
+---
+
+```{r setup, include=FALSE}
+library(learnr)
+knitr::opts_chunk$set(echo = FALSE)
+tutorial_options(exercise.completion = FALSE)
+```
+
+
+## Overview
+This tutorial, which accompanies the textbook Statistics Using R: An Integrative Approach, covers the basic use and manipulation of datasets, which are also referred to as data frames, in **R**. The activities covered in this tutorial are designed to help you understand the examples in each chapter and to complete end-of-chapter exercises in the textbook. It also is designed to help you learn some basic coding skills that will be helpful when working with data frames in **R** so as to aid your ability to complete more complex analyses and, ultimately, to learn the larger statistical concepts covered throughout the textbook.
+
+To close this tutorial, you will need to exit this tab in your browser window and press **Escape** within the Console window of RStudio. Note that when you close the tutorial, your progress will be saved until you re-open it next time. To clear your progress before closing the tutorial, click the Start Over button at the bottom of the browser screen.
+
+We will use the Framingham dataset, used throughout the textbook and contained within the **sur** package, which accompanies the textbook, as an example data frame in the tutorial. The Framingham dataset is based on a longitudinal study investigating factors relating to coronary heart disease. A more complete description of the Framingham dataset may be found in the textbook in Appendix A. Alternatively, you can type `?Framingham` into the Console window and press **Enter**. This will cause the description of the dataset to open in the help tab of RStudio. 
+
+To find out more information about any command or operator used throughout the tutorial, type a `?` before the name of the command or operator in the Console window (either in **R**, RStudio) and press **Enter**, or click on the **Help** tab in the lower right window pane of RStudio.
+
+The answers you provide to the coding exercises are not checked for correctness, but the solution to each exercise is available by clicking on the **Solution** button along the top of the codebook.
+
+## Setting Up with Data Frames
+*In this section, we describe a couple of basic data structures in **R**. Then, we explain how to access datasets included in the **sur** package. Finally, we briefly review common commands for reading in datasets from outside sources other than the **sur** package.*
+
+### Data Frames and Data Structures in **R**
+A data frame is a particular type of data structure in **R** that is organized by rows and columns. Typically, in a data frame, each row represents a set of values related to an observation or subject, and each column represents a set of values represented by a variable. The  columns in a data frame may be named (e.g., by the name of the variable represented by that column) and the data contained in each column may be one of a different type or class of values (e.g., they may be numbers or non-numerical string characters). Each column in a data frame is called a vector, defined by the fact that all the values (or elements) in that vector are of the same type or class (e.g., they are all numerical or non-numerical string characters).  Data structures other than data frames are possible in **R**, including matrices, lists, and still others, but are beyond the scope of this tutorial.
+
+### Datasets Within the **sur** Package
+
+All datasets used in Statistics Using R: An Integrative Approach are contained within the **sur** package and are readily available as data frames after installing and loading the sur package using first `install.packages("sur")` once per computer that you are using, and then `library(sur)` each time RStudio is opened. For instance, we simply have to type `Framingham` to see the Framingham dataset printed by **R**. Type `Framingham` below. Then click the **Run Code** button or place the cursor on the line of code and use a keyboard shortcut: **Command**+**Enter** for Mac or **Ctrl**+**Enter** for Windows and Linux.
+
+```{r prep}
+Framingham <- sur::Framingham
+```
+
+```{r print-full, exercise=TRUE}
+
+```
+
+```{r print-full-solution}
+Framingham
+```
+
+Now that we have accessed and printed the Framingham dataset to the console, we can see some of the information included in the dataset: each row appears to represent data for an individual with a specific identification number (given by the `ID` column). Data for each individual seems to cover both numeric measurements as well as categorical information. We will inspect this data frame in more detail in the coming sections.
+
+### Objects, Functions, and Arguments in **R**
+
+There are many types of objects in **R**. As noted above, data frames are a type of data structure, holding a collection of variables. When the name of a data frame is typed into the console, **R** prints its contents. A package is also an object in **R**, but it contains an assortment of related data, functions, and other code. If we want **R** to do something with these objects (other than simply printing data frame contents), we have to give **R** a command, also known as a function. For example, we used the function `install.packages` to install the **sur** package to our library. **R** knew which package we wanted to install because we listed **sur** as an argument of `install.packages`: we put `"sur"` in the parentheses following the command. Arguments to functions may tell **R** on what object the command should act, or even how to act on it. Likewise, when we wanted to access the contents of the **sur** package within an **R** session, we used the `library` function followed by `sur` in parentheses, telling **R** to open the **sur** package from our library.  Note that `install.packages` required the argument `sur` to be in quotes while `library` did not. 
+
+### Reading in Datasets from Other Sources
+
+If you would like to read into **R** as a data frame a dataset that is not part of the **sur** package, but that is, instead, from an outside source, you may do so with one of several **R** functions.  Two popular such **R** functions are the following: 
+
+* `read.csv` -- allows you to read in files with comma-separated values (CSV) only.
+
+* `read.delim` --  allows you to read in files that not only are separated by commas (in CSV format), but also that are separated by tabs, spaces, and so on.  This function is more general than the first as it allows for a greater variety of file types to be read in and converted into data frames.
+
+These functions can even read data in from web addresses, so that the user does not have to download and save the file before reading it into **R**. We will not be practicing these commands within this tutorial, since they are not needed to access our datasets, but users should know them for when they need to conduct analyses on other datasets. To practice these commands, see the end-of-chapter exercises for Chapter 1 in the Statistics Using R textbook. For further information on these functions, type `?read.csv` or `?read.delim` into the Console window and press **Enter**, or search for the commands in the Help tab of the lower righthand windowpane of RStudio.
+
+## Inspecting Data Frames
+*In this section, we show how to view the top and bottom rows of a data frame, how to quickly obtain the dimensions of a data frame, and how to initially examine the structure and variables of a data frame.*
+
+### Head and Tail
+Now that you know how to access a dataset, we will show you how to obtain some initial information about it using the Framingham dataset as an example. As you will see below, when you simply type `Framingham`, only some observations (rows) and variables (columns) will be printed in the output window at one time. While this tutorial allows scrolling, outside of this tutorial **R** has a maximum number of rows and columns it will print to the console at one time. To overcome this limitation and be able to access information more readily in the dataset, we introduce a number of different **R** commands. In particular, to get an overview of what the data look like we may view the first *n* rows of the data frame by using the `head` command and typing, not simply `Framingham`, but `head(Framingham)`. By default, **R** sets *n* to be 6. The appropriate code is given below: we use the function `head` with the argument `Framingham` to tell **R** to print the first 6 rows of `Framingham` in the output window. To see the output, hit the **Run Code** button, or use the shortcut **Command**+**Enter** for Mac or **Ctrl**+**Enter** for Windows and Linux.
+
+```{r head, exercise=TRUE}
+head(Framingham)
+```
+
+Analogously, we can use the `tail` command to print the last *n* rows of a data frame in the output window. The default for *n* for this command also is 6.  To print the last 3 rows instead of 6, we specify that *n* is to be equal to 3 by adding the argument `n = 3` in the `tail` command after a comma as shown below. Click the **Run Code** button or use a keyboard shortcut to run the code below.
+
+```{r tail, exercise=TRUE}
+tail(Framingham, n = 3)
+```
+
+We can see the row numbers of the Framingham dataset printed alongside the data frame in an unnamed column on the left side. From these row numbers we can tell that **R** printed rows numbered 1-6 when we used the `head` command under default settings, and **R** printed rows 398-400 when we used the `tail` command with the argument `n = 3`.
+
+### Dimensions
+As noted earlier, a data frame in **R** has data arranged in rows and columns, where, typically, the rows represent observations and the columns represent variables.  Accordingly, to determine how many observations a data frame has, we simply need to find out the row dimensionality of the data frame.  Likewise, to determine how many variables a data frame has, we simply need to find out the column dimensionality of the data frame. To do so, we use the command dim, which stands for dimension, and type `dim(Framingham).` Try this command in the code box below.
+
+```{r dim, exercise=TRUE}
+
+```
+
+```{r dim-solution}
+dim(Framingham)
+```
+
+The `dim` command returns a vector with the number of rows (observations) as the first element and the number of columns (variables) as the second element.
+
+```{r dim-quiz}
+quiz(
+  question("How many variables does the Framingham dataset have?",
+    answer("10"),
+    answer("400"),
+    answer("33", correct = TRUE),
+    answer("8")
+  ),
+  question("How many rows are there in the Framingham data frame?",
+    answer("200"),
+    answer("33"),
+    answer("10"),
+    answer("400", correct = TRUE)
+  )
+)
+```
+
+
+### Structure
+
+A useful command for learning more about the variables in a dataset is the `str` command, which stands for structure. From this command we may learn about (1) the way in which a dataset is structured (for the Framingham dataset, the data are structured as a `data.frame` as defined earlier), (2) how many row and column dimensions the dataset has, and (3) the name of each variable along with whether the variable is numeric or non-numeric. Variables that are listed as being `numeric` (noted as `num`) are either ratio- or interval-levelled; and variables that are listed as `factor` (noted as `Factor`) are either nominal- and ordinal-levelled. Details on working with these two types/classes of variables will be covered in the **Data and Variable Types** section of the tutorial. A single data frame may contain both numeric and factor variables.
+
+Inspect the output of running `str` on `Framingham` below and then answer the following question.
+
+```{r str, exercise=TRUE}
+str(Framingham)
+```
+
+```{r str-quiz}
+quiz(
+  question("What classes of data does the Framingham dataset have? Check all that apply.",
+    answer("Numeric", correct = TRUE),
+    answer("Logical"),
+    answer("Factor", correct = TRUE),
+    answer("Categorical", message = "There may be categorical variables, but this is not a class of data in R")
+  )
+)
+```
+
+## Subsetting Data Frames
+
+*It is often the case that a particular analysis will involve not all of the variables or not all of the observations in a data frame, but only a subset of each of them. To carry out an analysis on only a subset of variables or observations, it is first necessary to select that subset of variables or observations.  **R** refers to this as subsetting the data.  In this section we review methods for subsetting the data and, in particular, for selecting a particular subset of variables (i.e., columns of the data frame) or particular subset of observations (i.e., rows of the data frame). As we will describe in detail in the following sections, a subset of columns may be selected by identifying the names of the variables stored by those columns. Columns also may be selected by identifying their placement within the dataframe (e.g., 1st, 2nd, 20th, etc.). We refer to this number as a column's index (plural: indices).*
+
+### Selecting Columns by the Name of a Variable
+In **R**, data frames can be subsetted by selecting rows and/or columns. These rows and columns can be selected by name or by index. First, we will look at how to select a single column by name. Recall the output of `str(Framingham)`, which is shown below.
+```{r print-str}
+str(Framingham)
+```
+
+Each variable name is displayed with a `$` in front of it. This operator is how we reference a specific column within data frames in **R**. Say we want to call just the `SEX` variable from the Framingham dataset. We would simply enter `Framingham$SEX` and **R** would print the values of the `SEX` variable as the output. Try selecting just the variable `AGE1` from `Framingham` using the `$`, and run the code below. Remember, you can always view the solution by clicking the Solution button at the top of the code box.
+```{r select-age, exercise = TRUE}
+
+```
+
+```{r select-age-solution}
+Framingham$AGE1
+```
+
+Once a variable is selected, there are other operations that can be performed on that variable beyond simply printing the values of that variable in the output window. If we would like to compute the mean of the variable `AGE1`, for example, we would use the `mean` command as shown below.  Other commands for summarizing the values of a variable follow the same format and are given throughout the textbook. 
+
+```{r mean-age, exercise=TRUE}
+mean(Framingham$AGE1)
+```
+
+### Numeric and Name Slicing
+In this section, we use index values to describe how to access a single value or multiple values within a data frame. We note that a standard way to access values in any row by column array is to specify the value's row, column indices in that format.  In **R** we use brackets `[ ]`, instead of the `$`, following the name of the data frame and place the row and column indices within the brackets separated by a comma. Thus, if we wanted to access and print the value in the second row, fourth column of the `Framingham` dataset, we would type `Framingham[2,4]`. 
+
+To verify that we will indeed obtain the value in the second row and fourth column of the Framingham dataset, use the `head` command to print the first three rows of `Framingham` in the output window. Then type `Framingham[2,4]` and verify that it matches the value in the second row and fourth column.
+
+
+```{r bracket, exercise = TRUE}
+
+```
+
+```{r bracket-solution}
+head(Framingham, n = 3)
+Framingham[2,4]
+```
+
+From the `head` output, we note that the variable `AGE1` occupies the fourth column. To select all the values in the entire fourth column we, once again, use the bracket operator, but rather than specifying a single value for the row, as we did earlier, we now leave the row index blank: `Framingham[,4]`. Alternatively, we can use the column name `AGE1` within the bracket instead of the number 4: `Framingham[,"AGE1"]`. Note that when we use the column name within brackets, we must place the name within quotes; we do not use quotes when using the `$` operator.
+
+In the space below, access and print all the values in the `TOTCHOL1` variable from `Framingham` in three ways: (1) use the `$` operator, (2) use brackets with the column index number, and (3) use brackets with the variable name in quotes. We can find the column's index number by examining the output from having executed the `head` command in the previous exercise. Verify that the outputs from the execution of these three commands are identical by checking that the first three values are the same.
+
+```{r colname, exercise = TRUE}
+
+```
+
+```{r colname-solution}
+Framingham$TOTCHOL1
+Framingham[,3]
+Framingham[,"TOTCHOL1"]
+```
+
+If instead of wanting to access and print all the values of a single variable, we wanted to access and print all the values of more than one variable, where the variables are in sequence in the dataset, we can do so using a colon, `:`, within the brackets. The variables may be referred to either by the column indices or by the variable names. For example, if we wanted to access and print all the values of the four variables `TOTCHOL1`, `AGE1`, `SYSBP1`, and `DIABP1`, we note from our earlier work using the `head` command, that these four variables are in columns 3, 4, 5, and 6.  Accordingly, we may use the colon operator to access them by referencing their indices as follows: `Framingham[, 3:6]`.  It is worth noting that 3 and 6 represent, respectively, the  first and last indices of the four variables of interest. Another way to access these four variables is by their names using the following command: `Framingham[, c("TOTCHOL1", "AGE1", "SYSBP1" ,"DIABP1")]`.  When more than one variable is named, they all need to be joined together in a string using the `c` function, which stands for concatenate. It also is worth noting that the names of the variables within the brackets must be in quotes.
+
+If instead of selecting all rows for a specific column, we wanted to select all columns for specific rows, we again use brackets.  By analogy, we now leave the column entry blank within the brackets. Thus, if we wanted to access and print the values of all the variables (columns) for just the first subject, we would type `Framingham[1,]`. If, instead, we wanted a subset of sequential rows, we would, as before, use the colon operator, `:`, separating the first and last indices in the sequential set. For example, if we wanted to access the values for all the variables for only the first three rows, we would type `Framingham[1:3,]`. Note that this is identical to calling `head(Framingham, n = 3)`.
+ 
+
+If we want to select indices that are not sequential, we can use the `c` function within the brackets to group the indices of interest together. For instance, if we want all the rows for the second, fifth, and ninth columns, we would call `Framingham[,c(2,5,9)]`. We can also use `c` within the brackets to refer to multiple columns by name. Try calling all rows for the `SYSBP1` and `BMI1` variables below. Note again that variable names need to be in quotes when using brackets to subset.
+
+```{r colname-br, exercise = TRUE}
+
+```
+
+```{r colname-br-solution}
+Framingham[,c("SYSBP1","BMI1")]
+```
+
+
+### Adding, Removing, and Renaming Columns
+There are other commands than `str` and `head` for obtaining information about a data frame. One such other command is `names`. This command will print the names of the variables in a dataset in the Console window. The format or syntax of this command simply is similar to the `str` and `head` commands. Execute the `names` command on `Framingham` to see the names of the variables appear in the output window in the same order as they are in the dataset. 
+```{r names, exercise = TRUE}
+
+```
+
+```{r names-solution}
+names(Framingham)
+```
+
+
+```{r X-data}
+X <- rep(0:1,200)
+```
+
+For this next exercise, we have already created a new vector of 400 values called `X` that is available for use in this tutorial. `X` is not part of the Framingham dataset, but since `X` has the same number of values as the number of rows in `Framingham`, we can add it to the data frame as a new column. The quickest way to do this is to use an equals sign, `=`, to assign `X` as a new variable in the dataset. So that it is clear that we want this new variable to be part of the `Framingham` dataset, we assign the variable `X` to a name that includes the name of the dataset as well, `Framingham$new_var`. The code for this is displayed below. To be clear, the left side of the equation tells **R** that we are adding a new column to `Framingham` and we are naming this column `new_var`; the right side of the equation tells **R** that `new_var` will be getting the data contained in our outside variable `X`. 
+
+The line of code below will not produce any output in the console when run. To verify that the data of `X` has been added as a new variable in `Framingham` called `new_var`, add code to check the variable names of `Framingham` using the `names` command.
+
+```{r X, exercise = TRUE}
+Framingham$new_var = X
+
+```
+
+```{r X-solution}
+Framingham$new_var = X
+names(Framingham)
+```
+
+`new_var` is not a particularly good name for a variable, as it tells us nothing about what that variable measures, nor does it stick to the all-capitals naming convention of the Framingham dataset. Since `new_var` is just a fake variable that we made up for practice, let's rename it `FAKE`. We can use the `names` command and brackets to assign a new name to `new_var`. On reviewing the output produced by `names(Framingham)`, we note that the output consists of a single row of names.  Output consisting of either a single row or a single column may be described as an array of only one dimension. Arrays of one dimension are called vectors. As we have learned, by contrast, data frames consist of two dimensions, both rows and columns. Because `X` was added as a new variable at the end of the list of variables in the Framingham data set, and the Framingham dataset originally had 33 variables, `new_var` became the 34th variable in that dataset. To refer to `new_var` given that it is the 34th element of the vector of names, we use the `names(Framingham)` command followed by the number 34 in brackets as follows: `names(Framingham)[34]`. To change the name of `new_var` to `FAKE`, we assign the name `FAKE` to the 34th element in the `names(Framingham)` vector using the equals sign `=`.  In writing this code, we must remember to place the name `FAKE` in quotes because quotes need to be used when we refer to the name of a variable. As a distinction, when we refer to the set of values of a variable, quotes are not used. Write the code to execute this name change and then print all the variable names again to verify that the name `new_var` has been changed to `FAKE`.
+
+```{r FAKE-setup}
+Framingham$new_var <- X
+```
+
+```{r FAKE, exercise = TRUE}
+
+
+```
+
+```{r FAKE-solution}
+names(Framingham)[34] = "FAKE"
+names(Framingham)
+```
+
+Sometimes we want to remove columns from a data frame---perhaps they were created in error or we decide they are unnecessary. We can remove a column by assigning it the object `NULL`. Access the `FAKE` column from `Framingham` and assign it `NULL` using the `=` operator. Then check that the column has been removed by using the `names` command.
+
+```{r NULL-setup}
+Framingham$X <- X
+names(Framingham)[34] <- "FAKE"
+```
+
+```{r NULL, exercise = TRUE}
+
+
+```
+
+```{r NULL-solution}
+Framingham$FAKE = NULL
+names(Framingham)
+```
+
+
+### Subsetting with Brackets and Logicals
+
+Sometimes we want to look at values of a variable just for a certain group or just for a certain condition, or we want to compare statistics on a variable by group. We can do this using brackets and a logical statement. In **R**, a logical statement is a statement that is evaluated as either `TRUE` or `FALSE`. For instance, `3 < 5` states that 3 is less than 5. When we enter this in **R**, the returned value is `TRUE`. If we try `3 > 5`, we would get back `FALSE`. We can also use relational operators for characters as well: `"dog" == "cat"` comes back `FALSE`, but `"dog" == "dog"` comes back `TRUE`. Note that **R** is case sensitive, so `"dog" == "DOG"` also comes back `FALSE`. The following relational operators may be used to create logical statements:
+
+* `<` means less than
+
+* `<=` means less than or equal to
+
+* `>` means greater than
+
+* `>=` means greater than or equal to
+
+* `==` means equal to
+
+* `!=` means not equal to
+
+If we specify a variable, which is an entire column of values, on the left side of the logical statement, each value in that variable will be checked against the right side. First, print the `AGE1` variable in `Framingham`. Then, check if the values in this variable are less than 50. You will notice that the value returned is `TRUE` whenever the logical expression is true (i.e., when the value of `AGE1` is less than 50) and otherwise the value returned will be `FALSE`.
+
+```{r logical, exercise = TRUE}
+
+
+```
+
+```{r logical-solution}
+Framingham$AGE1
+Framingham$AGE1 < 50
+```
+
+In the previous example, the code `Framingham$AGE1 < 50` produces a returned value of either `TRUE` or `FALSE` for each of the 400 values of `AGE1` depending upon whether the value of `AGE1` was less than 50 or not. We also can use a logical expression to subset a variable and select cases from the dataset for which the logical expression is true. To do so for this example, we would use the command `Framingham$AGE1[Framingham$AGE1 < 50]` to obtain the age values of only those cases with ages less than 50, as shown below. Said another way, we are asking **R** to return values from `Framingham$AGE1`, but only those for which the statement `Framingham$AGE1 < 50` is true.
+
+```{r}
+Framingham$AGE1[Framingham$AGE1 < 50]
+```
+
+Let's suppose, instead, we had wanted the systolic blood pressure for only women. In this case, we would use the command: `Framingham$SYSBP1[Framingham$SEX == "Women"]`. Said differently, we would be subsetting the `SYSBP1` variable by whether or not the case is a woman and obtain as output the systolic blood pressure values of just the cases for which the `SEX` variable has the value `"Women"`. Below, try subsetting the `AGE1` variable to see just the ages of women. In this case, we would be subsetting the `AGE1` by whether or not the case is a woman and obtain as output the ages of just the cases for which the `SEX` variable has the value `"Women"`.
+
+```{r sub_log, exercise = TRUE}
+
+```
+
+```{r sub_log-solution}
+Framingham$AGE1[Framingham$SEX == "Women"]
+```
+
+Let's suppose, we now wanted the age values of women whose systolic blood pressure is 130 or more.  To obtain these results we would need to include two logical expressions within the brackets, in this case connected by an "and".  One logical expression would specify that `SEX == "Women"` and the other that `SYSBP1 >= 130`.  In **R**, "and" is represented by the `&` operator and "or" is represented by the `|` operator.  Accordingly, the code for subsetting age to those cases who are women and who have systolic blood pressure greater than or equal to 130 is: `Framingham$AGE1[Framingham$SEX == "Women" & Framingham$SYSBP1 >= 130]`. Below, try using the `&` operator to subset systolic blood pressure (`SYSBP1`) to just the observations for subjects who are women *and* are 60 years old or older.
+
+```{r and_log, exercise = TRUE}
+
+```
+
+```{r and_log-solution}
+Framingham$SYSBP1[Framingham$SEX == "Women" & Framingham$AGE1 >= 60]
+```
+
+Now let's get the values of `SYSBP1` for the youngest and oldest subjects: those younger than 35 *or* older than 65.
+```{r or_log, exercise = TRUE}
+
+```
+
+```{r or_log-solution}
+Framingham$SYSBP1[Framingham$AGE1 < 35 | Framingham$AGE1 > 65]
+```
+
+## Data and Variable Types
+*As mentioned earlier in the tutorial, each column of a data frame is a vector of values that are all of the same type. There are several classes of vectors in **R**, but in this section, we will limit the discussion to just a few important ones: numeric, character, logical, and factor. We can check the class of a vector with the `class` function.*
+
+### Numeric and Character Data
+Numeric data is exactly what it sounds like: numbers! Numeric vectors typically store values as double precision, which allow for decimals and can be mathematically operated upon. We might use numeric vectors to store values for interval- or ratio-level measurements. See Chapter 1 of Statistics Using R: An Integrative Approach for a review of measurement levels of variables.
+
+Character data consist of string letters and/or numbers contained in quotes. Character vectors might hold nominal- or ordinal-level measurements, and may require conversion to factor vectors in later stages, but more on this shortly. Numbers in quotes are characters and, as such, cannot be mathematically operated on. Let's look at a quick example of this using two vectors that we will create using the `c` function we first saw in the previous section. In the space below, vector `A` has been assigned the numbers 1, 4, 7, 5,  and 0, all in quotes. Create a vector `B` that is assigned those same numbers, but without quotes.
+
+```{r AB1, exercise = TRUE}
+A = c("1", "4", "7", "5", "0")
+
+```
+
+```{r AB1-solution}
+A = c("1", "4", "7", "5", "0")
+B = c(1, 4, 7, 5, 0)
+```
+
+In **R**, we can double every value in a numeric vector by multiplying that vector by 2 using the `*` as the multiplication operator. Check the class of each vector using the `class` command. Then try multiplying the numeric vector by two. 
+
+```{r AB2-setup}
+A <- c("1", "4", "7", "5", "0")
+B <- c(1, 4, 7, 5, 0)
+```
+
+```{r AB2, exercise = TRUE}
+
+```
+
+```{r AB2-solution}
+class(A)
+class(B)
+B*2
+```
+
+Now check what happens when we try to multiply the character vector by 2.
+```{r Aerror-setup}
+A <- c("1", "4", "7", "5", "0")
+```
+
+```{r Aerror, exercise = TRUE}
+
+```
+
+```{r Aerror-solution}
+A*2
+```
+
+As we can see from the output, `A*2` returns an error because the vector `A` is not a numeric vector. Since all of the elements in `A` contain only numbers, we can easily convert `A` from character data to numeric by applying the code `as.numeric` to `A` and assigning this the name `A`. This means we will be replacing `A` with a numeric version of itself and overwriting the previous character version. Further, instead of using `class`, we can use `is.numeric` to check if `A` is now numeric. The code for the conversion of `A` to numeric is shown below. Type the appropriate code to check if the conversion worked.
+
+```{r AB3-setup}
+A <- c("1", "4", "7", "5", "0")
+```
+
+```{r AB3, exercise = TRUE}
+A = as.numeric(A)
+
+```
+
+```{r AB3-solution}
+A = as.numeric(A)
+is.numeric(A)
+```
+
+### Logical Data
+
+In an earlier section, we described how logical statements in **R** evaluate to either `TRUE` or `FALSE`. It follows that logical vectors contain only the elements `TRUE` or `FALSE`. Internally, **R** stores the values of `TRUE` and `FALSE` as 1 and 0, respectively. To demonstrate this, let's print the logical statement that identifies whether a subject is less than 40 years old (based on the `AGE1` variable), and then, let's put this entire statement within the `as.numeric` command. 
+
+```{r logs, exercise = TRUE}
+
+
+```
+
+```{r logs-solution}
+Framingham$AGE1 < 40
+as.numeric(Framingham$AGE1 < 40)
+```
+
+Notice that each `TRUE` is represented by a 1 and each `FALSE` by a 0.  This internal coding using the numbers 1 and 0 makes it possible to perform many operations on logical variables. For example, suppose we wanted to know the number of subjects under age 40 in the `Framingham` dataset. We know from the subsetting section of the tutorial that we can select those values using a logical statement in brackets. We could select these individuals and then get the length of the new vector using the `length` command. However, we could do this more efficiently by summing the logical statement using the `sum` command. **R** will add all the 1's in the vector and return the total number of cases where a subject's age is less than 40. Try this in the space below: take the sum of the logical statement that returns `TRUE` if an individual in `Framingham` is younger than 40. Note that you do not need to use the `as.numeric` command here because the `sum`  command accesses the internal numeric codes, 1 and 0, directly. 
+
+```{r sum, exercise = TRUE}
+
+```
+
+```{r sum-solution}
+sum(Framingham$AGE1 < 40)
+```
+
+Thus, we find that 57 of the 400 individuals in `Framingham` are under 40 years old.
+
+### Factor Variables: Levels
+Factor vectors contain the elements of categorical variables, such as nominal- and ordinal-level measurements. **R** encodes (internally represents) the levels (categories) of the variable as numbers, but allows the labels of these levels to be strings of numbers or characters. When we classify a vector as a factor variable, **R** will enter the variable correctly into models as a categorical variable rather than as a numeric variable. 
+
+Recall that when we use the `str` command, **R** prints the class of each variable after its name. We also can check if a specific variable is a factor with `is.factor`. Again from `Framingham`, check if `CURSMOKE1`, the variable that indicates if a subject is a current smoker, is a factor variable. Then check what the categories of `CURSMOKE1` are by running the `levels` command on this variable.
+
+```{r levels, exercise = TRUE}
+
+```
+
+```{r levels-solution}
+is.factor(Framingham$CURSMOKE1)
+levels(Framingham$CURSMOKE1)
+```
+
+We can see that the levels are "No" and "Yes", but if we wanted to see the underlying numeric coding, we can use the `as.numeric` command as we did earlier with respect to logical variables. When applied to a factor variable, the numeric vector that is produced contains the numeric values that are used to internally represent the categories. Try this for `CURSMOKE1` below.
+
+```{r numer, exercise = TRUE}
+
+```
+
+```{r numer-solution}
+as.numeric(Framingham$CURSMOKE1)
+```
+
+This is helpful, but inefficient. Now let's look at what the `table` command does when run on `CURSMOKE1`.
+
+```{r, echo=TRUE}
+table(Framingham$CURSMOKE1)
+```
+
+The `table` command provides counts of each level of the variable: half the subjects in `Framingham` are currently smokers and half are not. If we run table on two variables, **R** provides a tabulation across the combinations of levels of each variable. For example, if we run `table(Framingham$SEX, Framingham$CURSMOKE1)` we get the following output, which shows smokers and non-smokers by sex.
+
+```{r}
+table(Framingham$SEX,Framingham$CURSMOKE1)
+```
+
+If we run `table` on a factor variable and its numeric conversion we may obtain how the levels of that factor variable are numerically represented internally. Try this for `CURSMOKE1` below.
+
+```{r tableCS, exercise = TRUE}
+
+```
+
+```{r tableCS-solution}
+table(Framingham$CURSMOKE1,as.numeric(Framingham$CURSMOKE1))
+```
+
+From the output we see that "No" is encoded as 1 and "Yes" is encoded as 2. Although one may refer to the different levels by their names, as opposed to by their numerical values used to represent them internally, knowing which numerical value represents each level is important for the interpretation of results from statistical analyses.  For more about this, see Statistics Using R: An Integrative Approach.
+
+```{r level-quiz}
+quiz(
+  question("Which level of `CURSMOKE1` is given a value of 1?",
+    answer('"Yes"'),
+    answer('"No"', correct = TRUE))
+)
+```
+
+If, for some reason, you would like to alter the way in which the levels of a factor variable are numerically internally represented, you may do so by using the command `relevel` on that variable and setting the argument `ref` to the name of the level we want to have the value 1. The level assigned the number 1 is often called the reference level, category, or group. Try changing the "Yes" of `CURSMOKE1` to have the value 1. Assign this to a new variable in `Framingham` called `CURSMOKE_RL`. Verify that "Yes" is now encoded as 1 and "No" is now encoded as 2 using the table command on `CURSMOKE_RL` and its numeric conversion. 
+
+```{r relevel, exercise = TRUE}
+
+```
+
+```{r relevel-solution}
+Framingham$CURSMOKE_RL = relevel(Framingham$CURSMOKE1, ref = "Yes")
+table(Framingham$CURSMOKE_RL,as.numeric(Framingham$CURSMOKE_RL))
+```
+
+### Factor Variables: Recoding
+Sometimes we need to recode a numeric variable into a factor variable. We will try this with `SYSBP1` from `Framingham`. `SYSBP1` contains numeric measurements of systolic blood pressure.  Let's assume we would like to recode this variable so that values less than 130 are grouped together under the category named, "normal", and values greater than or equal to 130 are grouped together under the category named, "high". To accomplish this, we will use the `ifelse` command. The `ifelse` command takes three arguments: a logical statement to be evaluated, values to return if the logical statement is true, and values to return if the logical statement is false. 
+
+First, let's try an example of how to use `ifelse`. The vector `x` is available in our working environment and contains the numbers 1 through 10. We want to create a new vector `y`, such that any value less than 5 is recoded as "low," and all other values are recoded as "high." Below we have provided the code to print the `x` vector and the logical statement that evaluates whether a value in the `x` vector is less than 5.  Notice that `TRUE` is returned for the first five entries, and `FALSE` thereafter.
+
+We now use the `ifelse` command with its three arguments.  The first argument, `x < 5`, checks whether each of the values of `x` is less than 5.  The second argument specifies the value to be assigned (in this case, "low") to each entry that satisfies the logical statement, `x < 5`, and for which the returned logical value is therefore `TRUE`.  The third argument specifies the value to be assigned (in this case, "high") to each entry that does NOT satisfy the logical statement, `x < 5`, and for which the returned logical value is therefore `FALSE`.  Add two lines of code below: one to assign to the variable `y` the values produced from the `ifelse` command applied to `x` and another to print `y` to confirm our code worked.
+
+```{r ifelse-setup}
+x <- c(1:10)
+```
+
+```{r ifelse, exercise=TRUE}
+x
+x < 5
+ifelse(x < 5, "low", "high")
+
+
+```
+
+```{r ifelse-solution}
+x
+x < 5
+ifelse(x < 5, "low", "high")
+y = ifelse(x < 5, "low", "high")
+y
+```
+
+Now we will try this with the Framingham dataset. Use the `ifelse` command to recode an individual's systolic blood pressure (`SYSBP1`) into a factor variable in such a way that if the blood pressure is greater than or equal to 130 (the returned value is `TRUE`), it is assigned the value "high", and if it is not (the returned value is `FALSE`), it is assigned the value "normal". Assign the result to a new variable in `Framingham` called `SYSBP_CAT`.
+
+```{r sysbpcat, exercise = TRUE}
+
+```
+
+```{r sysbpcat-solution}
+Framingham$SYSBP_CAT = ifelse(Framingham$SYSBP1 >= 130, "high", "normal")
+```
+
+Use the space below to run whatever code is needed to answer the following questions about `SYSBP_CAT`.
+
+```{r practicespace-setup}
+Framingham$SYSBP_CAT <- ifelse(Framingham$SYSBP1 >= 130, "high", "normal")
+```
+
+```{r practicespace, exercise = TRUE}
+# use this space to run code
+# any line that starts with '#' is a comment and will not be evaluated by R
+```
+
+```{r bpcat-quiz}
+quiz(
+  question("How many subjects have normal systolic blood pressure?",
+    answer("226", correct = TRUE),
+    answer("200"),
+    answer("174"),
+    answer("400")),
+  question("How many subjects have high systolic blood pressure?",
+    answer("226"),
+    answer("200"),
+    answer("174", correct = TRUE),
+    answer("400")),
+  question("What class of vector is `SYSBP_CAT`?",
+    answer("numeric"),
+    answer("character", correct = TRUE),
+    answer("factor"),
+    answer("integer"))
+)
+```
+As revealed in that last question, `SYSBP_CAT` is a character vector, not a factor vector. To complete the conversion of our new variable into a factor variable, we would like to set the lowest group (the reference group to be internally coded by the number 1) to be "normal." Note that if we do not set this explicitly, **R** will set "high" to 1 and "normal" to 2 because the default is to encode the groups alphabetically. 
+
+Setting our reference group explicitly is easily done by calling the `factor` command on our `SYSBP_CAT` variable and adding a second argument called `levels` after a comma. We use the `c` function to list the levels in the order in which we would like them to be. Because we would like "normal" to be the first level (internally represented by the number 1), we would place "normal" as the first element in the `c` function.  We would then set our `levels` argument of the `factor` command equal to our `c` function. In the space below, convert `SYSBP1_CAT` to a factor with "normal" as the first level. Be sure to assign the result to the same variable so that the changes are saved in `Framingham` and the character version of the variable is overwritten by the factor version. Then, check that you were successful using the `table` command.
+
+```{r sysbpf-setup}
+Framingham$SYSBP_CAT <- ifelse(Framingham$SYSBP1 >= 130, "high", "normal")
+```
+
+```{r sysbpf, exercise = TRUE}
+
+```
+
+```{r sysbpf-solution}
+Framingham$SYSBP_CAT = factor(Framingham$SYSBP_CAT, levels = c("normal", "high"))
+table(Framingham$SYSBP_CAT,as.numeric(Framingham$SYSBP_CAT))
+```
+### Factor Variables: Ordering
+By default, the numerical values assigned to factor variables are unordered in the sense that no level is considered greater or lesser than any other. Said differently, factor variables typically are considered to be nominal-leveled variables wherein the numbers assigned to levels are used merely to distinguish one level from another.  Sometimes, however, a factor variable is ordinal-leveled, implying that an ordering of the values assigned to the levels of that variable is meaningful. In such instances, we would like our analytic results and plots to reflect that ordering. For example, a factor variable with levels "small", "medium", and "large" would be an ordinal-leveled factor variable, and it would therefore be important for an interpretation of results to reflect the fact that "large" is greater than "medium", which is greater than "small."
+
+Let's suppose we wanted to add two additional levels to `SYSBP_CAT`: "low" for systolic blood pressure below 90 and "elevated" for systolic blood pressure between 120 and 129.9, inclusive. Before recoding `SYSBP_CAT`, we would need to add "low" and "elevated" as levels of the factor variable. We do this using the `factor` function once more, but this time we add the two new categories to the `levels` argument.
+
+```{r levels-quiz}
+quiz(
+  question("Which of the following can be supplied to the `levels` argument of `factor` such that the new factor variable will include all four levels (low, normal, elevated, and high)? Check all that apply. Any reference group is acceptable.",
+    answer('"low, normal, elevated, high"'),
+    answer('c("low", "normal", "elevated", "high")', correct = TRUE),
+    answer('"low", "normal", "elevated", "high"'),
+    answer('c(levels(Framingham$SYSBP_CAT), "low", "elevated")', correct = TRUE)
+  )
+)
+```
+
+Even though we have multiple options for the `levels` argument, we are going to use `c("low", "normal", "elevated", "high")` because we would like these levels to be ordered from least to greatest. We add ordering to our factor simply by setting the argument `ordered` to `TRUE`. The space below shows the code for assigning a new factoring of `SYSBP_CAT` to a variable named `SYSBP_CAT2`. Add the missing arguments to the `factor` command so that the new variable has all four levels and **R** knows that they are to be regarded as an ordered factor variable with the order as specified.
+
+```{r sysbp2-setup}
+Framingham$SYSBP_CAT <- ifelse(Framingham$SYSBP1 >= 130, "high", "normal")
+Framingham$SYSBP_CAT <- factor(Framingham$SYSBP_CAT, levels = c("normal", "high"))
+```
+
+```{r sysbp2, exercise = TRUE}
+Framingham$SYSBP_CAT2 = factor(Framingham$SYSBP_CAT)
+```
+
+```{r sysbp2-solution}
+Framingham$SYSBP_CAT2 = factor(Framingham$SYSBP_CAT,
+                                levels = c("low", "normal", "elevated", "high"),
+                                ordered = TRUE)
+```
+
+If we print our new ordered variable, we see the ordering of the levels at the very bottom, as shown below.
+
+```{r ordered-setup}
+Framingham$SYSBP_CAT <- ifelse(Framingham$SYSBP1 >= 130, "high", "normal")
+Framingham$SYSBP_CAT <- factor(Framingham$SYSBP_CAT, levels = c("normal", "high"))
+Framingham$SYSBP_CAT2 <- factor(Framingham$SYSBP_CAT,
+                                levels = c("low", "normal", "elevated", "high"),
+                                ordered = TRUE)
+```
+
+```{r ordered, exercise=TRUE}
+Framingham$SYSBP_CAT2
+```
+
+So far we have allowed for the possibility of systolic blood pressure falling into one of four categories, but we have not yet told **R** how to distinguish when an individual has low or elevated blood pressure. This is why the output above shows four possible categories, but only "normal" or "high" actually being used. Now we need to recode our variable to include the two new categories: "low" for systolic blood pressure below 90 and "elevated" for systolic blood pressure between 120 and 129.9, inclusive. Below we have provided the code to recode `SYSBP_CAT2` to "low" for any rows where systolic blood pressure (`SYSBP1`) is less than 90. Try recoding for the "elevated" category in a similar manner. *Hint: We will need to evaluate two logical statements to cover the range for "elevated."*
+
+```{r sysbp2-recode-setup}
+Framingham$SYSBP_CAT <- ifelse(Framingham$SYSBP1 >= 130, "high", "normal")
+Framingham$SYSBP_CAT <- factor(Framingham$SYSBP_CAT, levels = c("normal", "high"))
+Framingham$SYSBP_CAT2 <- factor(Framingham$SYSBP_CAT,
+                                levels = c("low", "normal", "elevated", "high"),
+                                ordered = TRUE)
+```
+
+```{r sysbp2-recode, exercise = TRUE}
+Framingham$SYSBP_CAT2[Framingham$SYSBP1 < 90] = "low"
+
+```
+
+```{r sysbp2-recode-solution}
+Framingham$SYSBP_CAT2[Framingham$SYSBP1 < 90] = "low"
+Framingham$SYSBP_CAT2[Framingham$SYSBP1 >= 120 & Framingham$SYSBP1 <= 129.9] = "elevated"
+```
+
+Use the space below to run code that shows counts of each level of `SYSBP_CAT2`, and then answer the following questions.
+
+```{r practicespace2-setup}
+Framingham$SYSBP_CAT <- ifelse(Framingham$SYSBP1 >= 130, "high", "normal")
+Framingham$SYSBP_CAT <- factor(Framingham$SYSBP_CAT, levels = c("normal", "high"))
+Framingham$SYSBP_CAT2 <- factor(Framingham$SYSBP_CAT,
+                                levels = c("low", "normal", "elevated", "high"),
+                                ordered = TRUE)
+Framingham$SYSBP_CAT2[Framingham$SYSBP1 < 90] <- "low"
+Framingham$SYSBP_CAT2[Framingham$SYSBP1 >= 120 & Framingham$SYSBP1 <= 129.9] <- "elevated"
+```
+
+```{r practicespace2, exercise = TRUE}
+# use this space to run code
+
+```
+
+```{r bpcat2-tab-quiz}
+quiz(
+  question("How many subjects in the study have elevated systolic blood pressure?",
+    answer("0"),
+    answer("89", correct = TRUE),
+    answer("137"),
+    answer("174")
+  ),
+  question("How many subjects in the study have low systolic blood pressure?",
+    answer("0", correct = TRUE),
+    answer("89"),
+    answer("137"),
+    answer("174")
+  )
+)
+```
+
+The output of using the `table` function on `SYSBP_CAT2` reveals that the "low" level is entirely unused. We can drop this level using the `droplevels` command on our factor variable and assigning the results to the same variable, effectively overwriting it with the version that does not include "low." Try this in the space below. Verify that the level has been dropped by running the `levels` command.
+
+```{r sysbp2-drop-setup}
+Framingham$SYSBP_CAT <- ifelse(Framingham$SYSBP1 >= 130, "high", "normal")
+Framingham$SYSBP_CAT <- factor(Framingham$SYSBP_CAT, levels = c("normal", "high"))
+Framingham$SYSBP_CAT2 <- factor(Framingham$SYSBP_CAT,
+                                levels = c("low", "normal", "elevated", "high"),
+                                ordered = TRUE)
+Framingham$SYSBP_CAT2[Framingham$SYSBP1 < 90] <- "low"
+Framingham$SYSBP_CAT2[Framingham$SYSBP1 >= 120 & Framingham$SYSBP1 <= 129.9] <- "elevated"
+```
+
+```{r sysbp2-drop, exercise = TRUE}
+
+```
+
+```{r sysbp2-drop-solution}
+Framingham$SYSBP_CAT2 = droplevels(Framingham$SYSBP_CAT2)
+levels(Framingham$SYSBP_CAT2)
+```
+
+## Descriptive Statistics
+*Obtaining descriptive statistics about variables in a dataset is the first step of most analyses (and even the main objective in some cases!). In this section, we review how to obtain these statistics, what to do when data are missing, and what to do when analyses call for complete cases across more than one variable. See chapters 2 through 5 of Statistics Using R: An Integrative Approach for a more complete and in-depth discussion of these statistics and how to access them with **R**. *
+
+### Descriptive Statistics Overview Using the `summary` Command
+To get a rough idea of what the distribution of each of our variables looks like, and whether they contain missing values, we can use the `summary` command. Use the `summary` command on `Framingham` in the code box below and inspect the results.
+
+```{r summary, exercise = TRUE}
+
+```
+
+```{r summary-solution}
+summary(Framingham)
+```
+
+As we can see from the output, `summary` gives us the name of each variable in `Framingham` and some basic descriptive statistics about each of them. For numeric variables, we get the minimum and maximum values, the mean and median, and the first and third quartiles (denoted "1st Qu." and "3rd Qu.", respectively). For categorical variables, we get the names of the groups and their counts. Thus, `summary` is a wonderful command for obtaining an overview of our data, but it is not recommended for when you need to obtain specific statistics for only certain variables. 
+
+If any variable has missing values, there will be an additional piece of information at the bottom of the list: a count of `NA` values. `NA` stands for "not available" and is the element/entry that **R** uses to note a missing value in the column. We will cover more on dealing with missing values later in this section.
+
+### Descriptive Statistics with Complete Data
+When there are no missing values in a dataset, it is very simple to obtain descriptive statistics about variables, such as those listed below.
+
+* `length` returns the length of a vector/variable, giving a count of observations for that variable
+
+* `mean` returns the mean value of a vector/variable
+
+* `sd` returns the standard deviation of a vector/variable
+
+Use the space below to run code in order to answer the following questions about variables from the `Framingham` dataset.
+
+```{r practicespace3, exercise = TRUE}
+# use this space to run code
+
+```
+
+```{r descriptives-quiz}
+quiz(
+  question("How many observations are there for the variable `ID`?",
+    answer("200"),
+    answer("400", correct = TRUE),
+    answer("35"),
+    answer("1")),
+  question("What is the mean age of subjects according to variable `AGE1`?",
+    answer("45.60"),
+    answer("61.86"),
+    answer("48.99", correct = TRUE),
+    answer("53.17")),
+  question("What class of vector is `DIABP1`?",
+    answer("numeric", correct = TRUE),
+    answer("character"),
+    answer("factor"),
+    answer("integer")),
+  question("What is the standard deviation of `SYSBP1`?",
+    answer("12.78256"),
+    answer("10.90613"),
+    answer("21.69397", correct = TRUE),
+    answer("81.55000"))
+)
+```
+
+### Descriptive Statistics with Missing Data
+In **R**, when values of a variable are missing from a vector or data frame, they are represented as `NA`, meaning "Not Available." The `Framingham` dataset includes variables whose measurements were taken at a number of different time points. Because not all subjects participated in the study at all time points, we do not have values for some of the variables for some of the subjects. Rather than these spaces being left blank, the entries of variables for unavailable subjects are listed as `NA`. We can find the number of missing values in a vector/variable by running a logical statement to check if each value is `NA` and then taking the sum of the result. The code below shows how to find the number of missing values for the `AGE3` variable, the age of the subject measured at time point 3. Add code that finds the count of `AGE3`.
+
+```{r length, exercise = TRUE}
+sum(is.na(Framingham$AGE3))
+
+```
+
+```{r length-solution}
+sum(is.na(Framingham$AGE3))
+length(Framingham$AGE3)
+```
+Even though `AGE3` contains 92 missing values, **R** returns the length of the vector/variable to be 400, the total number of observations in the dataset. The reason for this is that each `NA` is occupying an element's space in the vector, and as such, is still counted by the `length` function. To circumvent this issue, we use a function called `na.omit` on the vector to filter out the `NA` values from it. Then we feed this into the `length` function, in the same way that we fed the `is.na` result into the `sum` function above. Try this for `AGE3` in the space below.
+
+```{r na.omit, exercise = TRUE}
+
+```
+
+```{r na.omit-solution}
+length(na.omit(Framingham$AGE3))
+```
+
+Now we see that `AGE3` actually has only 308 non-missing values, not 400.
+
+Fortunately, many functions in **R**, including `mean` and `sd`, come with an optional argument `na.rm` that, when set to `TRUE`, removes all the `NA` values before running the function. In the space below, try running `mean` and `sd` for `AGE3` without the `na.rm` argument, and then with it set to `TRUE`.
+
+```{r na.rm, exercise = TRUE}
+
+```
+
+```{r na.rm-solution}
+mean(Framingham$AGE3)
+sd(Framingham$AGE3)
+mean(Framingham$AGE3, na.rm = TRUE)
+sd(Framingham$AGE3, na.rm = TRUE)
+```
+
+From the output, we can see that when there are missing values in a vector and we do not include the `na.rm` argument, **R** returns `NA` as the calculation's result.  In order to obtain the result we seek, based on the non-missing values only, we must include the `na.rm` argument to remove the `NA` values.  Alternatively, we may use the command `na.omit` to achieve the same result, as shown below.  
+```{r na.omit_alt, echo=TRUE, eval=TRUE}
+mean(na.omit(Framingham$AGE3))
+sd(na.omit(Framingham$AGE3))
+```
+
+### Descriptive Statistics for Paired Data
+In order to find the correlation, for example, between two variables, such as height and weight, in a sample of individuals, we would need to have the height and weight measures for each individual in that sample.  Because each pair of height and weight values comes from a single individual, height and weight are said to be paired. In this situation, when variables are paired, we must have non-missing values on both of the paired variables in order to run the analysis and obtain the results we seek. Accordingly, we need to use code that allows us to limit the analysis to only those rows that have non-missing values on both variables of interest (i.e., where a result of `TRUE` is returned in response to a query about whether the entry for the paired height and weight variables are non-missing or complete). In another context, suppose we wish to compute the correlation between diastolic blood pressure measured at time 1 (`DIABP1`) and at time 3 (`DIABP3`). Because both the measurements at the two time periods belong to the same person, they are considered to be paired.  To limit the analysis to those individuals that have non-missing/complete data on both paired measures, we ask whether `DIABP1`and `DIABP3` have non-missing values by using the command `complete.cases`. This command does the opposite of `is.na`: `complete.cases` checks to see if each element of a vector is *not* an `NA` value and returns `TRUE` if the value is non-missing and `FALSE` if it is missing.
+
+```{r paired-quiz}
+quiz(
+  question("Which logical statement returns `TRUE` if a row has non-missing values for *both* `DIABP1` and `DIABP3`?",
+    answer("`complete.cases(Framingham$DIABP1 & Framingham$DIABP3)`"),
+    answer("`complete.cases(Framingham$DIABP1) & complete.cases(Framingham$DIABP3)`", correct = TRUE),
+    answer("`complete.cases(Framingham$DIABP1) | complete.cases(Framingham$DIABP3)`",
+           message = "This will return `TRUE` if *either* `DIABP1` *or* `DIABP3` are non-missing for a row."))
+)
+```
+
+Use brackets and the solution from the previous question to subset the values `DIABP1` to only those values where both `DIABP1` and `DIABP3` are non-missing. Then do the same for `DIABP3`.
+
+```{r paired, exercise = TRUE}
+
+```
+
+```{r paired-solution}
+Framingham$DIABP1[complete.cases(Framingham$DIABP1) & complete.cases(Framingham$DIABP3)]
+Framingham$DIABP3[complete.cases(Framingham$DIABP1) & complete.cases(Framingham$DIABP3)]
+```
+
+## Test Your Skills on a New Dataset
+
+*In this final section, we present a new dataset: the NELS dataset, available in your environment as `NELS`. Code boxes will be available to help answer quiz questions about the dataset using the skills learned in the previous sections. We encourage you to try to use commands from memory as much as possible, but solution code is available using the Solution button at the top of the code box in case you need assistance. Keep in mind that in **R** there are often multiple ways to obtain the information sought, so sometimes your approach to finding the solution will not match that of the solution code provided, even though you were still successful in finding the correct information.*
+
+### First Impressions of the Dataset
+Let's start with some basic information about the dataset. Use the empty code box below to run any commands necessary to answer the quiz questions for this section. Suggested solutions are available by clicking on the Solution button on the code box.
+
+```{r NELS}
+NELS <- sur::NELS
+```
+
+```{r NELSbasic-practice, exercise=TRUE}
+# use this box to run code
+
+```
+
+```{r NELSbasic-practice-solution}
+# get observation and variable counts
+dim(NELS)
+
+# check variable data classes
+str(NELS)
+```
+
+
+```{r NELSbasic-quiz}
+quiz(
+  question("How many observations are there in the NELS dataset?",
+    answer("33"),
+    answer("500", correct = TRUE),
+    answer("48"),
+    answer("250")),
+  question("How many variables are there in the NELS dataset?",
+    answer("33"),
+    answer("500"),
+    answer("48", correct = TRUE),
+    answer("250")),
+  question("Which **R** classes of data does the NELS dataset have? Check all that apply.",
+    answer("Logical"),
+    answer("Factor", correct = TRUE),
+    answer("Categorical", message = "There may be categorical variables, but this is not a class of data in R"),
+    answer("Numeric", correct = TRUE)
+  )
+)
+
+```
+
+### Variable Inspection
+Let's look at some of the variables more closely now.
+
+```{r NELSvariables-practice, exercise=TRUE}
+# use this box to run code
+
+```
+
+```{r NELSvariables-practice-solution}
+# overview of variables (including NAs)
+summary(NELS)
+
+# or check individual variables for missing values
+sum(is.na(NELS$hwkin12))
+sum(is.na(NELS$famsize))
+
+# maximum of slfcnc08: find within summary(NELS) or use the following
+max(NELS$slfcnc08)
+
+# mean of ses
+mean(NELS$ses)
+
+# mean of achsls08
+mean(NELS$achsls08, na.rm=TRUE)
+mean(na.omit(NELS$achsls08))
+
+# non-missing achsls08
+length(na.omit(NELS$achsls08))
+length(NELS$achsls08[complete.cases(NELS$achsls08)])
+
+# non-missing approg
+length(na.omit(NELS$approg))
+```
+
+
+```{r NELSvariables-quiz}
+quiz(
+  question("Which of the following variables have missing values?",
+    answer("`approg`", correct = TRUE),
+    answer("`hwkin12`", correct = TRUE),
+    answer("`urban`"),
+    answer("`famsize`")),
+  question("What is the maximum 8th grade self-concept score of students in the NELS dataset? *Hint*: You can find the names and descriptions of variables in `NELS` by entering `?NELS` into the Console window of either R or RStudio.",
+    answer("33"),
+    answer("40"),
+    answer("32", correct = TRUE),
+    answer("43")),
+  question("What is the mean of the `ses` variable?",
+    answer("18.43", correct = TRUE),
+    answer("70.04"),
+    answer("35.00"),
+    answer("13.75")),
+  question("Which of the following code lines will produce the mean of `achsls08`? Check all that apply.",
+    answer("`mean(NELS$achsls08)`"),
+    answer("`mean(NELS$achsls08, na.rm=TRUE)`", correct = TRUE),
+    answer("`mean(na.omit(NELS$achsls08))`", correct = TRUE),
+    answer("`mean(complete.cases(NELS$achsls08))`")),
+  question("Which of the following code lines will produce the count (not including `NA` values) of `achsls08`? Check all that apply.",
+    answer("`length(NELS$achsls08)`"),
+    answer("`length(NELS$achsls08, na.rm=TRUE)`"),
+    answer("`length(na.omit(NELS$achsls08))`", correct = TRUE),
+    answer("`length(NELS$achsls08[complete.cases(NELS$achsls08)])`", correct = TRUE)),
+  question("How many non-missing values of `approg` are there?",
+    answer("500"),
+    answer("259"),
+    answer("493", correct = TRUE),
+    answer("7"))
+)
+
+```
+
+### Information about Subsets of the Data
+Now, let's dig a little deeper and investigate more specific details about our data.
+
+```{r NELSsubsets-practice, exercise=TRUE}
+# use this box to run code
+
+```
+
+```{r NELSsubsets-practice-solution}
+# check levels of region variable
+levels(NELS$region)
+
+# females from Northeast, males from South
+table(NELS$region,NELS$gender)
+
+# mean family size of students from the West
+mean(NELS$famsize[NELS$region=="West"])
+
+# standard deviation of first 20 slfcnc10 (3 ways)
+sd(NELS[1:20,"slfcnc10"])
+sd(NELS[1:20, 10])
+sd(NELS$slfcnc10[1:20])
+
+# 151st student cigarette use (2 ways)
+NELS[151,"cigarett"]
+NELS$cigarett[151]
+
+# complete pairs of parmarl8 and nursery
+sum(complete.cases(NELS$parmarl8) & complete.cases(NELS$nursery))
+```
+
+
+```{r NELSsubsets-quiz}
+quiz(
+  question("How many regions does `NELS` cover?",
+    answer("50"),
+    answer("3"),
+    answer("4", correct = TRUE),
+    answer("12")),
+  question("How many female students are from the Northeast?",
+    answer("49"),
+    answer("66"),
+    answer("48"),
+    answer("58", correct = TRUE)),
+  question("How many male students are from the South?",
+    answer("49"),
+    answer("66", correct = TRUE),
+    answer("48"),
+    answer("58")),
+  question("What is the mean family size of students from the West?",
+    answer("4.69"),
+    answer("4.89", correct = TRUE),
+    answer("4.00"),
+    answer("5.00")),
+  question("What is the standard deviation of `slfcnc10` for the first 20 students of the dataset?",
+    answer("22.62"),
+    answer("21.50"),
+    answer("6.87"),
+    answer("6.37", correct = TRUE)),
+  question("Did the 151st student in the dataset ever smoke cigarettes?",
+    answer("Never", correct = TRUE),
+    answer("Yes")),
+  question("How many complete pairs of observations are there for `parmarl8` and `nursery`?",
+    answer("414", correct = TRUE),
+    answer("483"),
+    answer("420"),
+    answer("477"))
+)
+
+```
+
+### Creating Variables
+Finally, let's create some variables and answer questions related to them. 
+
+In the code box below, add a variable to `NELS` called `achmatdiff`, which is the difference in math achievement scores from 8th to 12th grade for each student. Remember that you can check variable names and descriptions by running `?NELS` in the Console window of R or RStudio. You can use the `-` operator to subtract one column from another by row.
+
+```{r NELSachmatdiff, exercise = TRUE}
+
+```
+
+```{r NELSachmatdiff-solution}
+# create achmatdiff
+NELS$achmatdiff = NELS$achmat12 - NELS$achmat08
+```
+
+Now, use the code box below to run any code necessary to answer the following questions about our new variable.
+
+```{r NELSachmatdiff-questions-setup}
+NELS$achmatdiff <- NELS$achmat12 - NELS$achmat08
+```
+
+```{r NELSachmatdiff-questions, exercise = TRUE}
+# use this box to run code
+
+```
+
+```{r NELSachmatdiff-questions-solution}
+# minimum, maximum, and mean
+summary(NELS$achmatdiff)
+
+# missing values
+sum(is.na(NELS$achmatdiff))
+
+# standard deviation
+sd(NELS$achmatdiff)
+```
+
+```{r NELSachmatdiff-questions-quiz}
+quiz(
+  question("What is the minimum change in math achievement score?",
+    answer("-3.65"),
+    answer("-25.58", correct = TRUE),
+    answer("0.00"),
+    answer("0.32")),
+  question("What is the maximum change in math achievement score?",
+    answer("0.32"),
+    answer("4.18"),
+    answer("17.21", correct = TRUE),
+    answer("71.12")),
+  question("What is the average change in math achievement score?",
+    answer("0.18"),
+    answer("0.32", correct = TRUE),
+    answer("56.91"),
+    answer("58.03")),
+  question("How many missing values are there for `achmatdiff`?",
+    answer("4"),
+    answer("0", correct = TRUE),
+    answer("5"),
+    answer("1")),
+  question("What is the standard deviation of `achmatdiff`?",
+    answer("6.87"),
+    answer("4.94"),
+    answer("1.39"),
+    answer("5.67", correct = TRUE))
+)
+
+```
+
+Next, let's recode `achmatdiff` to a categorical variable called `achmatcat`, which has the value "negative" when `achmatdiff` has a value less than zero, and "positive" everywhere else. Check the class of `achmatcat`; if it is not a factor variable, change it so that it is. Then check that the levels are "negative" and "positive."
+
+```{r NELSachmatcat-setup}
+NELS$achmatdiff <- NELS$achmat12 - NELS$achmat08
+```
+
+```{r NELSachmatcat, exercise = TRUE}
+
+```
+
+```{r NELSachmatcat-solution}
+NELS$achmatcat = ifelse(NELS$achmatdiff < 0, "negative", "positive")
+class(NELS$achmatcat)
+NELS$achmatcat = factor(NELS$achmatcat)
+levels(NELS$achmatcat)
+```
+
+Finally, let's inspect `achmatcat` and check that we seem to have created it correctly. Use the code box below to answer the following questions.
+
+```{r NELSachmatcat-questions-setup}
+NELS$achmatdiff <- NELS$achmat12 - NELS$achmat08
+NELS$achmatcat <- ifelse(NELS$achmatdiff < 0, "negative", "positive")
+NELS$achmatcat <- factor(NELS$achmatcat)
+```
+
+```{r NELSachmatcat-questions, exercise = TRUE}
+# use this box to run code
+
+```
+
+```{r NELSachmatcat-questions-solution}
+# first 10 rows of achmatdiff and achmatcat
+NELS[1:10, c("achmatdiff","achmatcat")]
+
+# factor encoding for achmatcat
+table(NELS$achmatcat,as.numeric(NELS$achmatcat))
+
+# proportion positive
+table(NELS$achmatcat)
+258/500
+
+# achmatcat by region
+table(NELS$achmatcat,NELS$region)
+
+# average ses for "negative"
+mean(NELS$ses[NELS$achmatcat == "negative"])
+
+```
+
+```{r NELSachmatcat-questions-quiz}
+quiz(
+  question("Print the first 10 observations of `achmatdiff` and `achmatcat`. For these 10 rows, are all negative values of `achmatdiff` paired with \"negative\" for `achmatcat`?",
+    answer("Yes", correct = TRUE),
+    answer("No")),
+  question("As what number is the category \"positive\" encoded for `achmatcat`?",
+    answer("0"),
+    answer("1"),
+    answer("2", correct = TRUE),
+    answer("3")),
+  question("What proportion of students from the NELS dataset showed a positive change in math achievement from 8th to 12th grade? In other words, what proportion of observations of `achmatcat` are \"positive\"?",
+    answer("0.42"),
+    answer("0.48"),
+    answer("0.52", correct = TRUE),
+    answer("0.73")),
+  question("Which regions show more students with positive change than negative change in math achievement score? Check all that apply.",
+    answer("Northeast"),
+    answer("North Central", correct = TRUE),
+    answer("South", correct = TRUE),
+    answer("West")),
+  question("What is the average `ses` score for those students with a negative change in math achievement score?",
+    answer("16.12"),
+    answer("18.00"),
+    answer("17.61"),
+    answer("18.90", correct = TRUE))
+)
+
+```
+
+Now that you've successfully completed this tutorial, you should be well prepared to begin your study of statistics using the textbook Statistics Using R: An Integrative Approach by Weinberg, Harel, and Abramowitz.
+
+
+
+
+

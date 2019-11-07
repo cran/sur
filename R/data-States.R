@@ -1,0 +1,18 @@
+#' Educational Measures of the 50 States and Washington, D.C.
+#'
+#' This dataset includes different educational measures of the 50 states and Washington, D.C. These data are from The 2014 World Almanac and Book of Facts.
+#'
+#' @format A data frame with 51 rows and 10 variables:
+#' \describe{
+#'   \item{state}{name of state}
+#'   \item{region}{region of the country in which the state is located}
+#'   \item{enrollmt}{total public school enrollment 2011 - 2012}
+#'   \item{stuteach}{average number of pupils per teacher 2011 - 2012}
+#'   \item{teachpay}{average annual salary for public school teachers 2011 - 2012}
+#'   \item{educexpe}{average expenditure per pupil 2011 - 2012}
+#'   \item{satcr}{average SAT Critical Reading score 2013}
+#'   \item{satm}{average SAT Math score 2013}
+#'   \item{satw}{average SAT Writing score 2013}
+#'   \item{pertak}{percentage of eligible students taking the SAT 2012}
+#' }
+"States"
