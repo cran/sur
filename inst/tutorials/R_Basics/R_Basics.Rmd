@@ -14,7 +14,7 @@ tutorial_options(exercise.completion = FALSE)
 
 
 ## Overview
-This tutorial, which accompanies the textbook Statistics Using R: An Integrative Approach, covers the basic use and manipulation of datasets, which are also referred to as data frames, in **R**. The activities covered in this tutorial are designed to help you understand the examples in each chapter and to complete end-of-chapter exercises in the textbook. It also is designed to help you learn some basic coding skills that will be helpful when working with data frames in **R** so as to aid your ability to complete more complex analyses and, ultimately, to learn the larger statistical concepts covered throughout the textbook.
+This tutorial, which accompanies the textbook Statistics Using R: An Integrative Approach by Weinberg, Harel, & Abramowitz (Cambridge University Press, 2021 expected publication date), covers the basic use and manipulation of datasets, which are also referred to as data frames, in **R**. The activities covered in this tutorial are designed to help you understand the examples in each chapter and to complete end-of-chapter exercises in the textbook. It also is designed to help you learn some basic coding skills that will be helpful when working with data frames in **R** so as to aid your ability to complete more complex analyses and, ultimately, to learn the larger statistical concepts covered throughout the textbook.
 
 To close this tutorial, you will need to exit this tab in your browser window and press **Escape** within the Console window of RStudio. Note that when you close the tutorial, your progress will be saved until you re-open it next time. To clear your progress before closing the tutorial, click the Start Over button at the bottom of the browser screen.
 
@@ -763,11 +763,11 @@ length(Framingham$AGE3)
 ```
 Even though `AGE3` contains 92 missing values, **R** returns the length of the vector/variable to be 400, the total number of observations in the dataset. The reason for this is that each `NA` is occupying an element's space in the vector, and as such, is still counted by the `length` function. To circumvent this issue, we use a function called `na.omit` on the vector to filter out the `NA` values from it. Then we feed this into the `length` function, in the same way that we fed the `is.na` result into the `sum` function above. Try this for `AGE3` in the space below.
 
-```{r na.omit, exercise = TRUE}
+```{r na_omit, exercise = TRUE}
 
 ```
 
-```{r na.omit-solution}
+```{r na_omit-solution}
 length(na.omit(Framingham$AGE3))
 ```
 
@@ -775,11 +775,11 @@ Now we see that `AGE3` actually has only 308 non-missing values, not 400.
 
 Fortunately, many functions in **R**, including `mean` and `sd`, come with an optional argument `na.rm` that, when set to `TRUE`, removes all the `NA` values before running the function. In the space below, try running `mean` and `sd` for `AGE3` without the `na.rm` argument, and then with it set to `TRUE`.
 
-```{r na.rm, exercise = TRUE}
+```{r na_rm, exercise = TRUE}
 
 ```
 
-```{r na.rm-solution}
+```{r na_rm-solution}
 mean(Framingham$AGE3)
 sd(Framingham$AGE3)
 mean(Framingham$AGE3, na.rm = TRUE)
@@ -787,7 +787,7 @@ sd(Framingham$AGE3, na.rm = TRUE)
 ```
 
 From the output, we can see that when there are missing values in a vector and we do not include the `na.rm` argument, **R** returns `NA` as the calculation's result.  In order to obtain the result we seek, based on the non-missing values only, we must include the `na.rm` argument to remove the `NA` values.  Alternatively, we may use the command `na.omit` to achieve the same result, as shown below.  
-```{r na.omit_alt, echo=TRUE, eval=TRUE}
+```{r na_omit_alt, echo=TRUE, eval=TRUE}
 mean(na.omit(Framingham$AGE3))
 sd(na.omit(Framingham$AGE3))
 ```
