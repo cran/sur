@@ -1,4 +1,4 @@
-eeb5551b1188f4eb5ef7100ac9542b46 *DESCRIPTION
+e72699bbfffa9a14e9fd98b9fab4830d *DESCRIPTION
 0eec0abf6484d25a858ef13aebe7fde8 *NAMESPACE
 bbe8d2ac2e9dfa94b4ca22efa383b8f7 *R/boot.mean.R
 d3058d7c4fbd2c8ea25df4366ad4039e *R/cumulative.table.R
@@ -69,8 +69,8 @@ fb14880ca5fda69fcbe53cf594b3dbc0 *data/Statisticians.rda
 834788aaac3ff0290e8dee67b170c1e8 *data/Temp.rda
 5e661afcdb99c3ea152986f6e033c3a6 *data/UpperBodyStrength.rda
 5a6cad354b56ba3266273297c622aab1 *data/Wages.rda
-b5f8ced5100600894034f9e8bdaba058 *inst/tutorials/R_Basics/R_Basics.Rmd
-d0dd0b2c904388fb875a66c9f5c4413c *inst/tutorials/R_Basics/R_Basics.html
+aae3696a735e121a65ea265fe8b214c2 *inst/tutorials/R_Basics/R_Basics.Rmd
+71266e32f68041bcb5af53f24722435e *inst/tutorials/R_Basics/R_Basics.html
 7cd2a1bd414bb1f315d7c9943c257345 *man/Anscombe.Rd
 a41424f3f56f3aaab6b6b9ad67a817cb *man/Basketball.Rd
 0691da800479a0994399215bcd43b672 *man/Blood.Rd

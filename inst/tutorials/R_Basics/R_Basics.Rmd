@@ -301,30 +301,30 @@ Framingham$AGE1[Framingham$AGE1 < 50]
 
 Let's suppose, instead, we had wanted the systolic blood pressure for only women. In this case, we would use the command: `Framingham$SYSBP1[Framingham$SEX == "Women"]`. Said differently, we would be subsetting the `SYSBP1` variable by whether or not the case is a woman and obtain as output the systolic blood pressure values of just the cases for which the `SEX` variable has the value `"Women"`. Below, try subsetting the `AGE1` variable to see just the ages of women. In this case, we would be subsetting the `AGE1` by whether or not the case is a woman and obtain as output the ages of just the cases for which the `SEX` variable has the value `"Women"`.
 
-```{r sub_log, exercise = TRUE}
+```{r sub-log, exercise = TRUE}
 
 ```
 
-```{r sub_log-solution}
+```{r sub-log-solution}
 Framingham$AGE1[Framingham$SEX == "Women"]
 ```
 
 Let's suppose, we now wanted the age values of women whose systolic blood pressure is 130 or more.  To obtain these results we would need to include two logical expressions within the brackets, in this case connected by an "and".  One logical expression would specify that `SEX == "Women"` and the other that `SYSBP1 >= 130`.  In **R**, "and" is represented by the `&` operator and "or" is represented by the `|` operator.  Accordingly, the code for subsetting age to those cases who are women and who have systolic blood pressure greater than or equal to 130 is: `Framingham$AGE1[Framingham$SEX == "Women" & Framingham$SYSBP1 >= 130]`. Below, try using the `&` operator to subset systolic blood pressure (`SYSBP1`) to just the observations for subjects who are women *and* are 60 years old or older.
 
-```{r and_log, exercise = TRUE}
+```{r and-log, exercise = TRUE}
 
 ```
 
-```{r and_log-solution}
+```{r and-log-solution}
 Framingham$SYSBP1[Framingham$SEX == "Women" & Framingham$AGE1 >= 60]
 ```
 
 Now let's get the values of `SYSBP1` for the youngest and oldest subjects: those younger than 35 *or* older than 65.
-```{r or_log, exercise = TRUE}
+```{r or-log, exercise = TRUE}
 
 ```
 
-```{r or_log-solution}
+```{r or-log-solution}
 Framingham$SYSBP1[Framingham$AGE1 < 35 | Framingham$AGE1 > 65]
 ```
 
@@ -763,11 +763,11 @@ length(Framingham$AGE3)
 ```
 Even though `AGE3` contains 92 missing values, **R** returns the length of the vector/variable to be 400, the total number of observations in the dataset. The reason for this is that each `NA` is occupying an element's space in the vector, and as such, is still counted by the `length` function. To circumvent this issue, we use a function called `na.omit` on the vector to filter out the `NA` values from it. Then we feed this into the `length` function, in the same way that we fed the `is.na` result into the `sum` function above. Try this for `AGE3` in the space below.
 
-```{r na_omit, exercise = TRUE}
+```{r naomit, exercise = TRUE}
 
 ```
 
-```{r na_omit-solution}
+```{r naomit-solution}
 length(na.omit(Framingham$AGE3))
 ```
 
@@ -775,11 +775,11 @@ Now we see that `AGE3` actually has only 308 non-missing values, not 400.
 
 Fortunately, many functions in **R**, including `mean` and `sd`, come with an optional argument `na.rm` that, when set to `TRUE`, removes all the `NA` values before running the function. In the space below, try running `mean` and `sd` for `AGE3` without the `na.rm` argument, and then with it set to `TRUE`.
 
-```{r na_rm, exercise = TRUE}
+```{r narm, exercise = TRUE}
 
 ```
 
-```{r na_rm-solution}
+```{r narm-solution}
 mean(Framingham$AGE3)
 sd(Framingham$AGE3)
 mean(Framingham$AGE3, na.rm = TRUE)
@@ -787,7 +787,7 @@ sd(Framingham$AGE3, na.rm = TRUE)
 ```
 
 From the output, we can see that when there are missing values in a vector and we do not include the `na.rm` argument, **R** returns `NA` as the calculation's result.  In order to obtain the result we seek, based on the non-missing values only, we must include the `na.rm` argument to remove the `NA` values.  Alternatively, we may use the command `na.omit` to achieve the same result, as shown below.  
-```{r na_omit_alt, echo=TRUE, eval=TRUE}
+```{r naomitalt, echo=TRUE, eval=TRUE}
 mean(na.omit(Framingham$AGE3))
 sd(na.omit(Framingham$AGE3))
 ```
