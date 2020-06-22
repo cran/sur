@@ -9,7 +9,7 @@ line.graph(x, ...)
 \arguments{
 \item{x}{numeric object to be plotted.}
 
-\item{...}{additional arguments to be passed to the \code{\link[graphics]{plot}} function.}
+\item{...}{additional arguments to be passed to the \code{\link[graphics:plot.default]{plot()}} function.}
 }
 \value{
 A line graph of the estimated density distribution of a variable.
@@ -22,5 +22,5 @@ line.graph(Temp$Temperature[Temp$City == "SanFrancisco"])
 line.graph(IceCream$barsold)
 }
 \seealso{
-\code{\link[graphics]{plot}}, \code{\link[graphics]{hist}}
+\code{\link[graphics:plot.default]{plot()}}
 }

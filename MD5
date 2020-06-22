@@ -1,6 +1,6 @@
-e72699bbfffa9a14e9fd98b9fab4830d *DESCRIPTION
+0185267b0f27f2e3d3ca562016d377ca *DESCRIPTION
 0eec0abf6484d25a858ef13aebe7fde8 *NAMESPACE
-bbe8d2ac2e9dfa94b4ca22efa383b8f7 *R/boot.mean.R
+8414004ba299726b52137c5664bd0cde *R/boot.mean.R
 d3058d7c4fbd2c8ea25df4366ad4039e *R/cumulative.table.R
 4f4543279091c9c485e5c95f22cd83c2 *R/data-Anscombe.R
 0c54cbe1de5409aa9d5b2b4211a6959c *R/data-Basketball.R
@@ -27,8 +27,8 @@ b5d7ce132a36a27932dc863e9f250175 *R/data-Politics.R
 dcbff721082facfe2d5fa675c280bbdf *R/data-Wages.R
 114e78848b83a0826953a7d48103ff9f *R/data-figures.R
 9f475ab6800e40d5a995d1ac8f1d212c *R/levenes.test.R
-e16d5a36e426d9e9a6f5236335329389 *R/leverage.R
-033f381f5395ad0c2335e9ab54c5abfe *R/line.graph.R
+8e1a69c2e251e09cc8c8507a7804c3af *R/leverage.R
+f29f5f83ec871b8a23660fc2e8bb1e50 *R/line.graph.R
 c48286bb6fc09c54097ec14749fcb89b *R/percent.table.R
 9c733da4fc16aff42daed426566cced2 *R/se.skew.R
 c6de72138825b725d53ba577e0041c44 *R/skew.R
@@ -69,8 +69,8 @@ fb14880ca5fda69fcbe53cf594b3dbc0 *data/Statisticians.rda
 834788aaac3ff0290e8dee67b170c1e8 *data/Temp.rda
 5e661afcdb99c3ea152986f6e033c3a6 *data/UpperBodyStrength.rda
 5a6cad354b56ba3266273297c622aab1 *data/Wages.rda
-aae3696a735e121a65ea265fe8b214c2 *inst/tutorials/R_Basics/R_Basics.Rmd
-71266e32f68041bcb5af53f24722435e *inst/tutorials/R_Basics/R_Basics.html
+dddd6b737457eb126a2034bd427297da *inst/tutorials/R_Basics/R_Basics.Rmd
+751b77786a0d9ac338053586da5112b0 *inst/tutorials/R_Basics/R_Basics.html
 7cd2a1bd414bb1f315d7c9943c257345 *man/Anscombe.Rd
 a41424f3f56f3aaab6b6b9ad67a817cb *man/Basketball.Rd
 0691da800479a0994399215bcd43b672 *man/Blood.Rd
@@ -106,11 +106,11 @@ dfb08edd5466313bb422477a61b70258 *man/States.Rd
 4b2ff40cd17789bd2c938c3a5c4f13d4 *man/Temp.Rd
 5d800ebb2270332236733a460167cb86 *man/UpperBodyStrength.Rd
 7cef2a63b92dadf8bb9bc971958f8f06 *man/Wages.Rd
-a173af82f06e3b497af3af60c7aba1cd *man/boot.mean.Rd
+c3ebac724a275dbaf954cd131c8a4632 *man/boot.mean.Rd
 6a86fa81a45a57113a654dada665ba51 *man/cumulative.table.Rd
 122b82a95517595b39c45156a87257c5 *man/levenes.test.Rd
-e52e5bf69346b8d3e6c28d105c412040 *man/leverage.Rd
-51102aa2133e15784bba29c8c342423f *man/line.graph.Rd
+5ec657319bdf5ba3285f41f97d88c80a *man/leverage.Rd
+ae6189236f40063e08686611add92021 *man/line.graph.Rd
 3d9569984e500d0705f2bdf869d8d815 *man/percent.table.Rd
 24ff5113701a6e4a2e538c485b4c0d70 *man/se.skew.Rd
 2520587195d578b4f6e625b30e315855 *man/skew.Rd

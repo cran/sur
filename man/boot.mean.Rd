@@ -33,6 +33,3 @@ boot.mean(a, B = 500)
 set.seed(1234)
 boot.mean(Framingham$AGE3, B = 1000)
 }
-\seealso{
-\code{\link[base]{set.seed}}
-}

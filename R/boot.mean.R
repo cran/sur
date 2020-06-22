@@ -9,7 +9,6 @@
 #' \item{mean}{mean of bootstrapped means.}
 #' \item{se}{standard error, estimated as the standard deviation of bootstrapped means.}
 #' \item{bootstrap.samples}{means of bootstrapped samples.}
-#' @seealso \code{\link[base]{set.seed}}
 #' @examples
 #' # using simple vector
 #' a = 1:10

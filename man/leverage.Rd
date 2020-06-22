@@ -20,5 +20,5 @@ mod = lm(Framingham$SYSBP1 ~ Framingham$TOTCHOL1 + Framingham$AGE1)
 leverage(mod)
 }
 \seealso{
-\code{\link[stats]{lm}}, \code{\link[stats]{rstudent}}, \code{\link[stats]{cooks.distance}}
+\code{\link[stats]{lm}}, \code{\link[stats:influence.measures]{rstudent()}}, \code{\link[stats:influence.measures]{cooks.distance()}}
 }
