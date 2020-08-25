@@ -10,11 +10,15 @@ runtime: shiny_prerendered
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
 tutorial_options(exercise.completion = FALSE)
+
+X <- rep(0:1,200)
+A <- c("1", "4", "7", "5", "0")
+B <- c(1, 4, 7, 5, 0)
 ```
 
 
 ## Overview
-This tutorial, which accompanies the textbook Statistics Using R: An Integrative Approach by Weinberg, Harel, & Abramowitz (Cambridge University Press, 2021 expected publication date), covers the basic use and manipulation of datasets, which are also referred to as data frames, in **R**. The activities covered in this tutorial are designed to help you understand the examples in each chapter and to complete end-of-chapter exercises in the textbook. It also is designed to help you learn some basic coding skills that will be helpful when working with data frames in **R** so as to aid your ability to complete more complex analyses and, ultimately, to learn the larger statistical concepts covered throughout the textbook.
+This tutorial, which accompanies the textbook Statistics Using R: An Integrative Approach by Weinberg, Harel, & Abramowitz (Cambridge University Press, 2021), covers the basic use and manipulation of datasets, which are also referred to as data frames, in **R**. The activities covered in this tutorial are designed to help you understand the examples in each chapter and to complete end-of-chapter exercises in the textbook. It also is designed to help you learn some basic coding skills that will be helpful when working with data frames in **R** so as to aid your ability to complete more complex analyses and, ultimately, to learn the larger statistical concepts covered throughout the textbook.
 
 To close this tutorial, you will need to exit this tab in your browser window and press **Escape** within the Console window of RStudio. Note that when you close the tutorial, your progress will be saved until you re-open it next time. To clear your progress before closing the tutorial, click the Start Over button at the bottom of the browser screen.
 

@@ -14,7 +14,7 @@
   \item{points}{average total points scored per game}
 }}
 \source{
-\url{http://www.espn.com/}
+\url{https://www.espn.com/}
 }
 \usage{
 Basketball

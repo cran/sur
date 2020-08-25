@@ -1,9 +1,9 @@
-0185267b0f27f2e3d3ca562016d377ca *DESCRIPTION
+54bf0a5f8799d41c3b31d9b60d011eed *DESCRIPTION
 0eec0abf6484d25a858ef13aebe7fde8 *NAMESPACE
 8414004ba299726b52137c5664bd0cde *R/boot.mean.R
 d3058d7c4fbd2c8ea25df4366ad4039e *R/cumulative.table.R
 4f4543279091c9c485e5c95f22cd83c2 *R/data-Anscombe.R
-0c54cbe1de5409aa9d5b2b4211a6959c *R/data-Basketball.R
+58302056e8197acc3f56b4ed60274cce *R/data-Basketball.R
 8be304dafa64b5013cd06de7f58c843c *R/data-Blood.R
 6d770dd96a7cf6102d4b3cfc0b486864 *R/data-Brainsz.R
 345b8f6423619abea017219dc663e4cb *R/data-Currency.R
@@ -69,10 +69,10 @@ fb14880ca5fda69fcbe53cf594b3dbc0 *data/Statisticians.rda
 834788aaac3ff0290e8dee67b170c1e8 *data/Temp.rda
 5e661afcdb99c3ea152986f6e033c3a6 *data/UpperBodyStrength.rda
 5a6cad354b56ba3266273297c622aab1 *data/Wages.rda
-dddd6b737457eb126a2034bd427297da *inst/tutorials/R_Basics/R_Basics.Rmd
-751b77786a0d9ac338053586da5112b0 *inst/tutorials/R_Basics/R_Basics.html
+2f752b98c727d5ae2ed97f7b0b809c94 *inst/tutorials/R_Basics/R_Basics.Rmd
+0986c8816ede81cc69df4b1aacf69677 *inst/tutorials/R_Basics/R_Basics.html
 7cd2a1bd414bb1f315d7c9943c257345 *man/Anscombe.Rd
-a41424f3f56f3aaab6b6b9ad67a817cb *man/Basketball.Rd
+128d6d96a5fecacb0c5a42f4cdeb9867 *man/Basketball.Rd
 0691da800479a0994399215bcd43b672 *man/Blood.Rd
 ef3c0c86e7eb8a47fe5ce22f9c5e93a3 *man/Brainsz.Rd
 765498d550da420f94f4ce3701942d7f *man/Chapter14_Figures.Rd

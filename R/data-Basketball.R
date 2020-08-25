@@ -11,5 +11,5 @@
 #'   \item{games}{number of games played}
 #'   \item{points}{average total points scored per game}
 #' }
-#' @source \url{http://www.espn.com/}
+#' @source \url{https://www.espn.com/}
 "Basketball"
